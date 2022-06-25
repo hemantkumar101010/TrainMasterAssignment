@@ -55,21 +55,25 @@ namespace TrainMaster.Data.Models
                 entity.Property(e => e.TrainNumber).ValueGeneratedNever();
 
                 entity.Property(e => e.FromStation)
-                    .HasMaxLength(50)
+                    .HasMaxLength(12)
                     .IsUnicode(false)
                     .IsFixedLength();
 
-                entity.Property(e => e.JourneyEtime).HasColumnType("datetime");
+                entity.Property(e => e.JourneyEtime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("JourneyETime");
 
-                entity.Property(e => e.JourneyStime).HasColumnType("datetime");
+                entity.Property(e => e.JourneyStime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("JourneySTime");
 
                 entity.Property(e => e.ToStaion)
-                    .HasMaxLength(50)
+                    .HasMaxLength(12)
                     .IsUnicode(false)
                     .IsFixedLength();
 
                 entity.Property(e => e.TrainName)
-                    .HasMaxLength(50)
+                    .HasMaxLength(12)
                     .IsUnicode(false)
                     .IsFixedLength();
             });

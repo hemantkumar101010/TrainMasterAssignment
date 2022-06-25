@@ -22,6 +22,7 @@ namespace TrainMaster.Data
             };
             trainMasterDbContext.TrainDetails.Add(trainDetailObj);
             trainMasterDbContext.SaveChanges();
+            Console.WriteLine("Record added.");
         }
 
         #region Saperate-funct-to-add
@@ -60,8 +61,6 @@ namespace TrainMaster.Data
             Console.WriteLine("Inserted");
         }
         #endregion
-
-
         public void UpdateInTrainDetails(int trainNumber, TrainDetail updatedDetail)
         {
             var trainDetail = trainMasterDbContext.TrainDetails.Where(td => td.TrainNumber == trainNumber).FirstOrDefault();
@@ -83,15 +82,26 @@ namespace TrainMaster.Data
 
         public void DeleteInTrainsDetails(int trainNumber)
         {
+            var trainSDetail = trainMasterDbContext.DaysSchedulars.Where(td => td.TrainNo == trainNumber).FirstOrDefault();
+            if (trainSDetail != null)
+            {
+                trainMasterDbContext.DaysSchedulars.Remove(trainSDetail);
+                trainMasterDbContext.SaveChanges();
+                Console.WriteLine("Deleted from days schedular");
+            }
+            else
+                Console.WriteLine($"Train number: {trainNumber} is not found");
+
             var trainDetail = trainMasterDbContext.TrainDetails.Where(td => td.TrainNumber == trainNumber).FirstOrDefault();
             if (trainDetail != null)
             {
                 trainMasterDbContext.TrainDetails.Remove(trainDetail);
                 trainMasterDbContext.SaveChanges();
-                Console.WriteLine("Deleted");
+                Console.WriteLine("Deleted from train info.");
             }
             else
                 Console.WriteLine($"Train number: {trainNumber} is not found");
+
         }
 
         public void SearchByTrainNumber(int trainNumber)
@@ -99,11 +109,11 @@ namespace TrainMaster.Data
             var trainDetail = trainMasterDbContext.TrainDetails.Where(td => td.TrainNumber == trainNumber).FirstOrDefault();
             if (trainDetail != null)
             {
-                Console.WriteLine($"Train Name: {trainDetail.TrainName}");
-                Console.WriteLine($"From Station: {trainDetail.FromStation}");
-                Console.WriteLine($"To Station: {trainDetail.ToStaion}");
-                Console.WriteLine($"JurneySTime: {trainDetail.JourneyStime}");
-                Console.WriteLine($"JurneyETime: {trainDetail.JourneyEtime}");
+                Console.WriteLine($"Train Name: {trainDetail.TrainName},From Station: {trainDetail.FromStation},To Station: {trainDetail.ToStaion},JurneySTime: {trainDetail.JourneyStime},JurneyETime: {trainDetail.JourneyEtime}");
+                //Console.WriteLine($"From Station: {trainDetail.FromStation}");
+                //Console.WriteLine($"To Station: {trainDetail.ToStaion}");
+                //Console.WriteLine($"JurneySTime: {trainDetail.JourneyStime}");
+                //Console.WriteLine($"JurneyETime: {trainDetail.JourneyEtime}");
 
             }
             else
@@ -118,7 +128,7 @@ namespace TrainMaster.Data
             {
                 foreach (var item in trainDetail)
                 {
-                    Console.WriteLine($"Train no. {item.TrainNumber},TrainName: {item.TrainName},JourneySTime: {item.JourneyStime},   JourneyETime: {item.JourneyEtime}");
+                    Console.WriteLine($"Train no. : {item.TrainNumber},TrainName : {item.TrainName},JourneySTime: {item.JourneyStime},   JourneyETime: {item.JourneyEtime}");
                 }
             }
             else
@@ -126,6 +136,40 @@ namespace TrainMaster.Data
                 Console.WriteLine($"No details available for train station from {from} to station {to}");
             }
         }
+
+
+        /* DateTime dtStart,dtEnd;
+        DateTime.TryParse("22/06/2022 7:00:00 AM", out dtStart);
+        DateTime.TryParse("22/06/2022 6:00:00 PM", out dtEnd);
+
+        TrainDetail obj = new TrainDetail
+        {
+            TrainNumber= 504,TrainName="Pune Express",FromStation="Pune",ToStaion="Goa",JourneyStime= dtStart,
+            JourneyEtime= dtEnd
+        }; */
+
+        public void insert()
+        {
+            Console.WriteLine("Enter Train number.");
+            int tN = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter Train name.");
+            string tName = Console.ReadLine();
+
+            Console.WriteLine("Enter from station.");
+            string from = Console.ReadLine();
+
+            Console.WriteLine("Enter to station.");
+            string to = Console.ReadLine();
+            Console.WriteLine("Enter journey start time and date(month/day/year : hour:minute:second)");
+            string startDate = Console.ReadLine();
+
+            Console.WriteLine("Enter journey end time and date(month/day/year : hour:minute:second)");
+            string endDate = Console.ReadLine();
+
+
+
+        }
+
 
 
     }
